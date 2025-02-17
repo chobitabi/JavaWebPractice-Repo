@@ -16,7 +16,7 @@ import javax.servlet.http.Part;
  * Servlet implementation class UploadServlet
  */
 @WebServlet("/upload")
-@MultipartConfig(location = "C:/temp")
+@MultipartConfig(location="C:/Users/erish/temp")
 
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,6 +26,18 @@ public class UploadServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//uploadsフォルダ内のファイルリストを取得
+		File filePath = getUploadedDirectory(request);
+		File[] fileList = filePath.listFiles();
+		request.setAttribute("fileList", fileList);
+		
+		//デバッグ用にファイルリストをコンソールに表示
+		if (fileList != null) {
+			for (File file : fileList) {
+				System.out.println(file.getPath());
+			}
+		}
+		
 		request.getRequestDispatcher("/WEB-INF/view/upload.jsp")
 				.forward(request, response);
 	}
@@ -43,7 +55,7 @@ public class UploadServlet extends HttpServlet {
 
 		// アップロードされたファイルを保存
 		if (fileSize > 0) {
-			File filePath = getUploadDirectory(request);
+			File filePath = getUploadedDirectory(request); //ファイルを保存するディレクトリのパスを取得
 			part.write(filePath + "/" + fileName);
 		}
 
@@ -56,7 +68,7 @@ public class UploadServlet extends HttpServlet {
 
 	}
 
-	private File getUploadDirectory(HttpServletRequest request) {
+	private File getUploadedDirectory(HttpServletRequest request) {
 		ServletContext context = request.getServletContext();
 		String path = context.getRealPath("/uploads");
 		return new File(path);

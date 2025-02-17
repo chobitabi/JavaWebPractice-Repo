@@ -1,4 +1,6 @@
 <%@ page pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +15,14 @@
 		<p>
 			ファイル：<input type="file" name="upfile" />
 		</p>
-		<input type="submit" value="">
 		<p>
+			<input type="submit" value="アップロード">
 		</p>
 	</form>
+
+	<h2>画像一覧</h2>
+	<c:forEach var="file" items="${fileList}">
+	<img src="uploads/<c:out value="${file.name}" />" height="200">
+	</c:forEach>
 </body>
 </html>
