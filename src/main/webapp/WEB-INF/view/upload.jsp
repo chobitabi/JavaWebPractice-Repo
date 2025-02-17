@@ -13,7 +13,7 @@
 		<p>
 			ファイル：<input type="file" name="upfile" />
 		</p>
-		<input type="submit" value="アップロード">
+		<input type="submit" value="">
 		<p>
 		</p>
 	</form>
