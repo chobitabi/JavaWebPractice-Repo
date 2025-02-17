@@ -14,7 +14,7 @@
 			ファイル：<input type="file" name="upfile" />
 		</p>
 		<p>
-
+			<input type="submit" value="アップロード">
 		</p>
 	</form>
 </body>
