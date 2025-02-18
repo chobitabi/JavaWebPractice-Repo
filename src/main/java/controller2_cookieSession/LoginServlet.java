@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ public class LoginServlet extends HttpServlet {
 		if (request.getAttribute("message") == null) {
 			request.setAttribute("message", "");
 		}
-		
+
 		request.getRequestDispatcher("/WEB-INF/view/login.jsp")
 				.forward(request, response);
 	}
@@ -38,24 +39,38 @@ public class LoginServlet extends HttpServlet {
 		//フォームからの情報を取得
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
-		
-		// 仮のユーザーデータ (本番ではDBを使う)
-		String validUser = "eri";
-		String validPass = "Eri218";
+		String rememberMe = request.getParameter("rememberMe");
 
-		//認証成功したらセッションにデータを保存
-		if (userName.equals(validUser) && password.equals(validPass)) {
-			HttpSession session = request.getSession();
-			session.setAttribute("userName", userName);
-			response.sendRedirect("welcome");
-		} else {
-
-			//認証に失敗したら
+		//認証に失敗したら
+		if (!("eri".equals(userName) && "Eri218".equals(password))) {
 			request.setAttribute("message", "ログイン失敗");
 			request.getRequestDispatcher("/WEB-INF/view/login.jsp")
 					.forward(request, response);
-
 		}
-	}
 
+		//ログインに成功→セッションに保存
+		HttpSession session = request.getSession();
+		session.setAttribute("sessionUser", userName);
+
+		//チェックボックスにチェックが入っていたら、クッキーにusernameを保存(クライアント側）
+		if ("true".equals(rememberMe)) {
+			Cookie cookie = new Cookie("savedUser", userName);
+			cookie.setMaxAge(60 * 60 * 24 * 7);
+			response.addCookie(cookie);
+		}
+
+		//2回目の訪問時：クッキーの値を取り出す
+		Cookie[] cookies = request.getCookies();
+		String savedUser = null;
+
+		if (cookies != null) {
+			for (Cookie cookie :cookies) {
+				if ("savedUser".equals(cookie.getName())) {
+					savedUser = cookie.getValue();
+				}
+			}
+		}
+
+			response.sendRedirect("welcome");
+	}
 }

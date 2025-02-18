@@ -14,6 +14,9 @@
 		<p>
 			パスワード： <input type="password" name="password" />
 		</p>
+		<p>
+			<label for=""><input type="checkbox" name="rememberMe" value="true"/>ログイン情報を記憶する</label>
+		</p>
 		<input type="submit" value="ログイン" />
 	</form>
 </body>

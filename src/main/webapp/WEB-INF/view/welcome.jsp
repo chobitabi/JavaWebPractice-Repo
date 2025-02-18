@@ -6,7 +6,7 @@
 <title>ログイン成功</title>
 </head>
 <body>
-<p>ようこそ,${userName}</p>
+<p>ようこそ,${sessionUser}</p>
 <p><a href="logout">ログアウトする</a></p>
 </body>
 </html>
