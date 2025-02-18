@@ -1,4 +1,4 @@
-package controller2_cookie;
+package controller2_cookieSession;
 
 import java.io.IOException;
 
