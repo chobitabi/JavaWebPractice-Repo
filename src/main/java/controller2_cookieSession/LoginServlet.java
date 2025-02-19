@@ -39,6 +39,17 @@ public class LoginServlet extends HttpServlet {
 		if (savedUser != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("sessionUser", savedUser);
+			
+			//既存のクッキーを削除
+			Cookie deleteCookie = new Cookie("savedUser", "");
+			deleteCookie.setMaxAge(0);
+			response.addCookie(deleteCookie);
+
+			//クッキーの有効期限をリセットして7日間延長
+			Cookie cookie = new Cookie("savedUser", savedUser);
+			cookie.setMaxAge(60 * 60 * 24 * 7);
+			response.addCookie(cookie);
+			
 			response.sendRedirect("welcome");
 			return;
 		}
@@ -80,7 +91,15 @@ public class LoginServlet extends HttpServlet {
 			Cookie cookie = new Cookie("savedUser", userName);
 			cookie.setMaxAge(60 * 60 * 24 * 7);
 			response.addCookie(cookie);
+		} else {
+			Cookie cookie = new Cookie("savedUser", "");
+			cookie.setMaxAge(0); // クッキーを即時削除
+			response.addCookie(cookie);
 		}
+		
+		response.sendRedirect("welcome");
+		return;
+
 
 	}
 }

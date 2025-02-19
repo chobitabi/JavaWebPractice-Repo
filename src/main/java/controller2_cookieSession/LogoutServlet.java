@@ -25,7 +25,7 @@ public class LogoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		
-		 // クライアントのクッキーを削除する（Remember Me 機能対応）
+		 // クライアントのクッキーを削除
         Cookie cookie = new Cookie("savedUser", "");
         cookie.setMaxAge(0); // クッキーを即時削除
         response.addCookie(cookie);
