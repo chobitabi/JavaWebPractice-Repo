@@ -22,14 +22,12 @@ public class WelcomeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		//セッションにログイン済みであるというデータがあるか確認
-		 HttpSession session = request.getSession(false); 
-		 if (session == null || session.getAttribute("userName")== null) {
-			 response.sendRedirect("login");
-		 } else {
-		 request.setAttribute("userName", session.getAttribute("userName"));
-		 request.getRequestDispatcher("/WEB-INF/view/welcome.jsp")
-			.forward(request, response);
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("sessionUser") == null) {
+			response.sendRedirect("login");
+			return;
+		}
+		request.getRequestDispatcher("/WEB-INF/view/welcome.jsp")
+				.forward(request, response);
 	}
-	}
-
 }

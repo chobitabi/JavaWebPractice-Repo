@@ -22,6 +22,28 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		//2回目の訪問時：クッキーの値を取り出す
+		Cookie[] cookies = request.getCookies();
+		String savedUser = null;
+
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if ("savedUser".equals(cookie.getName())) {
+					savedUser = cookie.getValue();
+				}
+			}
+		}
+
+		//クッキーがある場合のみログイン状態にする
+		if (savedUser != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("sessionUser", savedUser);
+			response.sendRedirect("welcome");
+			return;
+		}
+
+		//クッキーがない場合
 		if (request.getAttribute("message") == null) {
 			request.setAttribute("message", "");
 		}
@@ -46,6 +68,7 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("message", "ログイン失敗");
 			request.getRequestDispatcher("/WEB-INF/view/login.jsp")
 					.forward(request, response);
+			return;
 		}
 
 		//ログインに成功→セッションに保存
@@ -59,18 +82,5 @@ public class LoginServlet extends HttpServlet {
 			response.addCookie(cookie);
 		}
 
-		//2回目の訪問時：クッキーの値を取り出す
-		Cookie[] cookies = request.getCookies();
-		String savedUser = null;
-
-		if (cookies != null) {
-			for (Cookie cookie :cookies) {
-				if ("savedUser".equals(cookie.getName())) {
-					savedUser = cookie.getValue();
-				}
-			}
-		}
-
-			response.sendRedirect("welcome");
 	}
 }

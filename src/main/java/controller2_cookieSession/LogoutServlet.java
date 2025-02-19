@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,11 @@ public class LogoutServlet extends HttpServlet {
 		//セッションを破棄
 		HttpSession session = request.getSession();
 		session.invalidate();
+		
+		 // クライアントのクッキーを削除する（Remember Me 機能対応）
+        Cookie cookie = new Cookie("savedUser", "");
+        cookie.setMaxAge(0); // クッキーを即時削除
+        response.addCookie(cookie);
 		
 		response.sendRedirect("login");
 		return;
