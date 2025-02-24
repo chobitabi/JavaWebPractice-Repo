@@ -31,8 +31,8 @@ public class ConnectionTestServlet2 extends HttpServlet {
 
 		Connection con = null;
 		try {
-			InitialContext ctx = new InitialContext();
-			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/mydb");
+			InitialContext ctx = new InitialContext(); //Tomcat の設定（server.xml/context.xml）にアクセスするための準備
+			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/mydb"); //接続プールからDB接続を取得
 			con = ds.getConnection();
 			writer.println("接続しました");
 		} catch (Exception e) {
