@@ -23,7 +23,7 @@
 				<td><c:out value="${member.name}" /></td>
 				<td><c:out value="${member.age}" /></td>
 				<td><c:out value="${member.address}" /></td>
-				<td><c:out value="${member.typeId}" /></td>
+				<td><c:out value="${member.typeName}" /></td>
 				<td><c:out value="${member.created}" /></td>
 			</tr>
 		</c:forEach>

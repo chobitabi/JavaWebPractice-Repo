@@ -3,7 +3,7 @@ package domain;
 import java.util.Date;
 
 public class Member {
-	
+
 	//フィールド
 	private Integer id;
 	private String name;
@@ -11,19 +11,21 @@ public class Member {
 	private String address;
 	private Integer typeId;
 	private Date created;
-	
+	private String typeName;
+
 	//コンストラクタ
 	public Member() {
-		
+
 	}
-	
-	public Member(Integer id, String name, Integer age,String address, Integer typeId, Date created) {
+
+	public Member(Integer id, String name, Integer age, String address, Integer typeId, Date created, String typeName) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.address = address;
 		this.typeId = typeId;
 		this.created = created;
+		this.typeName = typeName;
 	}
 
 	//アクセッサ
@@ -73,6 +75,15 @@ public class Member {
 
 	public void setCreated(Date created) {
 		this.created = created;
-	}	
+
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
 
 }
