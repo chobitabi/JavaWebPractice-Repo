@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,7 @@ import javax.sql.DataSource;
 
 import domain.Member;
 
-//データベースからデータを取得する具体的な処理を担当
+//DBからデータを取得する具体的な処理を担当
 
 public class MemberDaoImpl implements MemberDao {
 	private DataSource ds;
@@ -21,6 +22,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	//membersテーブルの全データを取得
 	public List<Member> findAll() throws Exception {
 		List<Member> memberList = new ArrayList<>();
 
@@ -51,9 +53,21 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	//新しい会員を追加
 	public void insert(Member member) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
-
+		try (Connection con = ds.getConnection()) {
+			String sql = "INSERT INTO members"
+					+ "(name, age, address, type_id, created)"
+					+ "VALUES (?, ?, ?, ?, NOW())";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, member.getName());
+			stmt.setObject(2, member.getAge(), Types.INTEGER);
+			stmt.setString(3, member.getAddress());
+			stmt.setObject(4, member.getTypeId(), Types.INTEGER);
+			stmt.executeUpdate(); //DBにデータを挿入
+		} catch (Exception e) {
+			throw e;
+		}		
 	}
 
 	@Override

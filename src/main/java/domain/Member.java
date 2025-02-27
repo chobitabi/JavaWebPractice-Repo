@@ -2,6 +2,7 @@ package domain;
 
 import java.util.Date;
 
+//Memberクラスは、会員の情報をまとめるための「箱」 
 public class Member {
 
 	//フィールド

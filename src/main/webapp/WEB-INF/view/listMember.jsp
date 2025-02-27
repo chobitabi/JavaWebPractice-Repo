@@ -28,5 +28,8 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<p>
+		<a href="addMember">会員の追加</a>
+	</p>
 </body>
 </html>
