@@ -14,6 +14,10 @@ public class DaoFactory {
 		return new MemberDaoImpl(getDataSource());
 	}
 
+	public static AdminDao createAdminDao() {
+		return new AdminDaoImpl(getDataSource());
+	}
+
 	private static DataSource getDataSource() {
 		InitialContext ctx = null;
 		DataSource ds = null;
