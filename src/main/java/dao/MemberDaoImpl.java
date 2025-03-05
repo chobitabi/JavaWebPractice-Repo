@@ -47,9 +47,29 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	//会員一人分のデータを取得
 	public Member findById(Integer id) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		Member member = new Member();
+
+		try (Connection con = ds.getConnection()) {
+			String sql = "SELECT"
+					+ " members.id, members.name, members.age,"
+					+ " members.address, members.type_id, members.created,"
+					+ " member_types.name as type_name"
+					+ " FROM members"
+					+ " JOIN member_types"
+					+ " ON members.type_id = member_types.id"
+					+ " WHERE members.id = ?";
+			PreparedStatement stmt = con.prepareStatement(sql); //SQLを実行
+			stmt.setObject(1, id, Types.INTEGER);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next() == true) {
+				member = mapToMember(rs); //取得したデータをMemberクラスのオブジェクトに変換
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return member;
 	}
 
 	@Override
@@ -67,18 +87,42 @@ public class MemberDaoImpl implements MemberDao {
 			stmt.executeUpdate(); //DBにデータを挿入
 		} catch (Exception e) {
 			throw e;
-		}		
+		}
 	}
 
 	@Override
+	//データ更新
 	public void update(Member member) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
+		try (Connection con = ds.getConnection()) {
+			String sql = "UPDATE members"
+					+ " SET name = ?, age = ?, address = ?, type_id = ?"
+					+ " WHERE id = ?";
 
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, member.getName());
+			stmt.setObject(2, member.getAge(), Types.INTEGER);
+			stmt.setString(3, member.getAddress());
+			stmt.setObject(4, member.getTypeId(), Types.INTEGER);
+			stmt.setObject(5, member.getId(), Types.INTEGER);
+			stmt.executeUpdate(); //DBにデータを挿入
+
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
+	//データ削除
 	public void delete(Member member) throws Exception {
-		// TODO 自動生成されたメソッド・スタブ
+		try (Connection con = ds.getConnection()) {
+			String sql = "DELETE FROM members WHERE id = ?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setObject(1, member.getId(), Types.INTEGER);
+			stmt.executeUpdate(); //DBにデータを挿入
+
+		} catch (Exception e) {
+			throw e;
+		}
 
 	}
 

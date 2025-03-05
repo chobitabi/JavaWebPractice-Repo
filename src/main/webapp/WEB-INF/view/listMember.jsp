@@ -8,6 +8,10 @@
 </head>
 <body>
 	<h1>会員一覧</h1>
+	<p>
+		<a href="logout">ログアウト</a>
+	</p>
+
 	<table border="1">
 		<tr>
 			<th>ID</th>
@@ -16,6 +20,7 @@
 			<th>住所</th>
 			<th>会員種別</th>
 			<th>登録日</th>
+			<th colspan="2">データの操作</th>
 		</tr>
 		<c:forEach items="${memberList}" var="member">
 			<tr>
@@ -25,6 +30,8 @@
 				<td><c:out value="${member.address}" /></td>
 				<td><c:out value="${member.typeName}" /></td>
 				<td><c:out value="${member.created}" /></td>
+				<td><a href="updateMember?id=<c:out value="${member.id}" />">更新</a></td>
+				<td><a href="deleteMember?id=<c:out value="${member.id}" />">削除</a></td>
 			</tr>
 		</c:forEach>
 	</table>
